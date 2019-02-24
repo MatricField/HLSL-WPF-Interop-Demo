@@ -1,5 +1,4 @@
 ﻿using SharpDX.D3DCompiler;
-using System;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.IO;
