@@ -6,8 +6,6 @@
         xmlns:local="clr-namespace:HLSLWpfInterop"
         mc:Ignorable="d"
         x:Name="_MainWindow"
-        AllowDrop="True"
-        Drop="Image_Drop"
         Title="MainWindow" Height="350" Width="525">
     <Window.DataContext>
         <local:DataContext/>
@@ -16,13 +14,15 @@
         <ItemsControl ItemsSource="{Binding Effects}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <!--<StackPanel Orientation="Vertical"/>-->
                     <UniformGrid/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Image Grid.Column="1" Source="{Binding DisplayImage, ElementName=_MainWindow}" Effect="{Binding}"/>
+                    <Image Grid.Column="1"
+                           Effect="{Binding}"
+                           Source="{Binding DataContext.DisplayImage, RelativeSource={RelativeSource FindAncestor, AncestorType=ItemsControl}}"
+                           Margin="5 5 5 5"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

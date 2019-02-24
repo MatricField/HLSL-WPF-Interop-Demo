@@ -7,33 +7,36 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace HLSLWpfInterop
+namespace HLSLWpfInterop.Effects
 {
-    internal class ShaderSourceResolver:
+    internal class EmbeddedFileIncluder:
         Include
     {
+        private static readonly Uri BasePackedUri =
+            new Uri("pack://application:,,,/Effects/", UriKind.Absolute);
+
+        protected virtual Uri BaseUri => BasePackedUri;
+
         public IDisposable Shadow { get; set; }
 
-        //private HashSet<IDisposable> OpenedStreams = new HashSet<IDisposable>();
+        public virtual void Close(Stream stream) {}
 
-        public void Close(Stream stream)
-        {
-            //if(OpenedStreams.Remove(stream))
-            //{
-            stream.Dispose();
-            //}
-        }
+        public Stream Open(IncludeType type, string fileName, Stream parentStream) =>
+            GetResourceStream(fileName);
 
-        public Stream Open(IncludeType type, string fileName, Stream parentStream)
+        public string GetFileData(string fileName)
         {
-            using (var stream = Application.GetResourceStream(new Uri($@"pack://application:,,,/Effects/{fileName}")).Stream)
+            using (var raw = GetResourceStream(fileName))
             {
-                var reader = new StreamReader(stream);
-                var source = reader.ReadToEnd();
-                var bytes = Encoding.ASCII.GetBytes(source);
-                return new MemoryStream(bytes);
+                var reader = new StreamReader(raw);
+                return reader.ReadToEnd();
             }
         }
+
+        private Stream GetResourceStream(string fileName) =>
+            Application.GetResourceStream(new Uri(BaseUri, fileName)).Stream;
+
+        public Stream Open(string fileName) => Open(IncludeType.Local, fileName, null);
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
@@ -46,7 +49,7 @@ namespace HLSLWpfInterop
                 disposedValue = true;
             }
         }
-        ~ShaderSourceResolver()
+        ~EmbeddedFileIncluder()
         {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(false);

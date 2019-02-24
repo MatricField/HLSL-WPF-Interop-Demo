@@ -1,4 +1,4 @@
-﻿float Convolve3x3(float3x3 kernel, float3x3 mat, float constant = 1)
+float Convolve3x3(float3x3 kernel, float3x3 mat, float constant = 1)
 {
     float3x3 vals = mul(constant, kernel * mat);
     float ret = 0;

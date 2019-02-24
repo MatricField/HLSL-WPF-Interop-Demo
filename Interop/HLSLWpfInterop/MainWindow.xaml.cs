@@ -22,36 +22,9 @@ namespace HLSLWpfInterop
     /// </summary>
     public partial class MainWindow : Window
     {
-
-
-        public ImageSource DisplayImage
-        {
-            get { return (ImageSource)GetValue(DisplayImageProperty); }
-            set { SetValue(DisplayImageProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for DisplayImage.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty DisplayImageProperty =
-            DependencyProperty.Register(
-                "DisplayImage",
-                typeof(ImageSource),
-                typeof(MainWindow),
-                new PropertyMetadata(new BitmapImage(new Uri(@"pack://application:,,,/Resources/Cleveland(CL-55)_NewYorkPort_2015_12_28.png"))));
-
-
-
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void Image_Drop(object sender, DragEventArgs e)
-        {
-            if(e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-                DisplayImage = new BitmapImage(new Uri(files[0]));
-            }
         }
     }
 }

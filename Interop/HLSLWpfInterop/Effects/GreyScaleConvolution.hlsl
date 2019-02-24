@@ -1,4 +1,4 @@
-﻿#include "WPFBinding.hlsl"
+#include "WPFBinding.hlsl"
 #include "Convolution.hlsl"
 
 struct ConvolutionParam

@@ -1,4 +1,4 @@
-﻿#include "WPFBinding.hlsl"
+#include "WPFBinding.hlsl"
 #include "Convolution.hlsl"
 
 static const float3x3 EdgeDetect =

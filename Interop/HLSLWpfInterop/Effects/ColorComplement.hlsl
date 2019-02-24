@@ -1,5 +1,4 @@
-﻿#include "WPFBinding.hlsl"
-
+#include "WPFBinding.hlsl"
 float4 main(float2 uv : TEXCOORD) : COLOR
 {
 

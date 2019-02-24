@@ -10,8 +10,8 @@ using System.Windows.Media;
 
 namespace HLSLWpfInterop.Effects
 {
-    public class GreyScaleConvolution:
-        PixelShaderEffect
+    internal class GreyScaleConvolution:
+        EmbeddedEffect
     {
         // TODO: Find a way to make this work
         #region ConvolutionParam dp
@@ -35,16 +35,6 @@ namespace HLSLWpfInterop.Effects
         #endregion
 
         private const string sourceName = "GreyScaleConvolution.hlsl";
-        static GreyScaleConvolution()
-        {
-            using (var resolver = new ShaderSourceResolver())
-            using (var sourceStream = resolver.Open(IncludeType.Local, sourceName, null))
-            {
-                var reader = new StreamReader(sourceStream);
-                var unprocessed = reader.ReadToEnd();
-                var source = ShaderBytecode.Preprocess(unprocessed, include: resolver, sourceFileName: sourceName);
-                RegisterPixelShaderEffect(source, "main");
-            }
-        }
+        static GreyScaleConvolution() => RegisterPixelShaderEffectWithName(sourceName);
     }
 }

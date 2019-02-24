@@ -11,20 +11,10 @@ using System.Windows;
 
 namespace HLSLWpfInterop.Effects
 {
-    public class EdgeDetection:
-        PixelShaderEffect
+    internal class EdgeDetection:
+        EmbeddedEffect
     {
         private const string sourceName = "EdgeDetection.hlsl";
-        static EdgeDetection()
-        {
-            using (var resolver = new ShaderSourceResolver())
-            using (var sourceStream = resolver.Open(IncludeType.Local, sourceName, null))
-            {
-                var reader = new StreamReader(sourceStream);
-                var unprocessed = reader.ReadToEnd();
-                var source = ShaderBytecode.Preprocess(unprocessed, include: resolver, sourceFileName: sourceName);
-                RegisterPixelShaderEffect(source, "main");
-            }
-        }
+        static EdgeDetection() => RegisterPixelShaderEffectWithName(sourceName);
     }
 }

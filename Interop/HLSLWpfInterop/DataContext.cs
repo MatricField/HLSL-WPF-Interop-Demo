@@ -15,9 +15,19 @@ namespace HLSLWpfInterop
     public class DataContext :
         INotifyPropertyChanged
     {
+        private static readonly ImageSource DefaultImage =
+            new BitmapImage(new Uri("pack://application:,,,/Resources/Example.jpeg"));
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private ObservableCollection<Effect> _Effects;
+        private ObservableCollection<Effect> _Effects =
+            new ObservableCollection<Effect>()
+            {
+                null,
+                new ColorComplementEffect(),
+                new EdgeDetection(),
+                new GaussianBlur()
+            };
 
         public ObservableCollection<Effect> Effects
         {
@@ -29,19 +39,16 @@ namespace HLSLWpfInterop
             }
         }
 
-        public DataContext()
+        public ImageSource _DisplayImage = DefaultImage;
+
+        public ImageSource DisplayImage
         {
-            Effects = new ObservableCollection<Effect>();
-            Effects.Add(null);
-            Effects.Add(new ColorComplementEffect());
-            Effects.Add(new EdgeDetection());
-            //Effects.Add(
-            //    new GreyScaleConvolution()
-            //    {
-            //        ConvolutionParam = new ConvolutionParam()
-            //    }
-            //    );
-            Effects.Add(new GaussianBlur());
+            get => _DisplayImage;
+            set
+            {
+                _DisplayImage = value;
+                OnPropertyChanged();
+            }
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName]string name = "")

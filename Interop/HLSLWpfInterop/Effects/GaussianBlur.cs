@@ -9,20 +9,10 @@ using SharpDX.D3DCompiler;
 
 namespace HLSLWpfInterop.Effects
 {
-    public class GaussianBlur :
-        PixelShaderEffect
+    internal class GaussianBlur :
+        EmbeddedEffect
     {
         private const string sourceName = "GaussianBlur.hlsl";
-        static GaussianBlur()
-        {
-            using (var resolver = new ShaderSourceResolver())
-            using (var sourceStream = resolver.Open(IncludeType.Local, sourceName, null))
-            {
-                var reader = new StreamReader(sourceStream);
-                var unprocessed = reader.ReadToEnd();
-                var source = ShaderBytecode.Preprocess(unprocessed, include: resolver, sourceFileName: sourceName);
-                RegisterPixelShaderEffect(source, "main");
-            }
-        }
+        static GaussianBlur() => RegisterPixelShaderEffectWithName(sourceName);
     }
 }

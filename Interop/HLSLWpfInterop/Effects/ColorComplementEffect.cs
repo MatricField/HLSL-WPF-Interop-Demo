@@ -11,21 +11,10 @@ using System.Windows;
 
 namespace HLSLWpfInterop.Effects
 {
-    public class ColorComplementEffect:
-        PixelShaderEffect
+    internal class ColorComplementEffect:
+        EmbeddedEffect
     {
-
         private const string sourceName = "ColorComplement.hlsl";
-        static ColorComplementEffect()
-        {
-            using (var resolver = new ShaderSourceResolver())
-            using (var sourceStream = resolver.Open(IncludeType.Local, sourceName, null))
-            {
-                var reader = new StreamReader(sourceStream);
-                var unprocessed = reader.ReadToEnd();
-                var source = ShaderBytecode.Preprocess(unprocessed, include: resolver, sourceFileName: sourceName);
-                RegisterPixelShaderEffect(source, "main");
-            }
-        }
+        static ColorComplementEffect() => RegisterPixelShaderEffectWithName(sourceName);
     }
 }
